@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Générateur de QR Code</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>Générateur de QR Code</h1>
+    <p>Colle une URL et génère ton QR code instantanément.</p>
+
+    <label for="url">URL</label>
+    <input id="url" type="url" placeholder="https://exemple.com" />
+
+    <div class="row">
+      <button id="btn">Générer</button>
+      <a id="download" class="btn-secondary" download="qrcode.png" style="display:none;">Télécharger</a>
+    </div>
+
+    <div id="qr-wrap">
+      <div id="qrcode"></div>
+    </div>
+
+    <small class="note">
+      100% gratuit • Généré dans ton navigateur • Aucun tracking <br />
+         Par <a href="https://lnkd.in/eepaJzqH" target="_blank" rel="noopener noreferrer">Marc Ezechiel Bakayoko</a>
+    </small>
+  </main>
+
+  <!-- Lib QRCode.js via CDN (cdnjs) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
