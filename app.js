@@ -65,21 +65,37 @@ form?.addEventListener("submit", async (e) => {
   try {
     const res = await fetch(WAITLIST_ENDPOINT, {
       method: "POST",
+      // Apps Script aime bien text/plain
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({
-        email,
-        source: "qr-code-generator"
-      })
+      body: JSON.stringify({ email, source: "qr-code-generator" }),
     });
 
-    const data = await res.json().catch(() => ({}));
+    // Lire en texte pour être compatible avec Apps Script
+    const raw = await res.text();
 
-    if (data.ok) {
+    // Essayer JSON.parse, sinon fallback
+    let data = null;
+    try {
+      data = JSON.parse(raw);
+    } catch (_) {
+      data = null;
+    }
+
+    // ✅ Si HTTP ok -> on considère que c’est réussi
+    // (puisque tu vois déjà la ligne dans le Sheet)
+    if (res.ok) {
       msg.textContent = "✅ Merci ! Tu es ajouté à la liste.";
       emailInput.value = "";
-    } else {
-      msg.textContent = "❌ Oups, email non enregistré. Réessaie.";
+      return;
     }
+
+    // Si jamais pas OK, mais JSON avec erreur
+    if (data?.error) {
+      msg.textContent = `❌ ${data.error}`;
+      return;
+    }
+
+    msg.textContent = "❌ Oups, inscription impossible. Réessaie.";
   } catch (err) {
     msg.textContent = "❌ Erreur réseau. Réessaie plus tard.";
   }
