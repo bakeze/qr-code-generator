@@ -22,7 +22,25 @@
     <div id="qr-wrap">
       <div id="qrcode"></div>
     </div>
+    <section class="upsell">
+    <h2> Version plus évoluée ?</h2>
+    <p>
+      Intéressé par une version pro (QR avec logo, QR avec carte de visite, QR avec Flyers, mise en page, designs, etc.) ?
+      Rejoins la liste de diffusion 👇
+    </p>
 
+    <form id="waitlist-form" class="waitlist">
+      <input id="waitlist-email" type="email" placeholder="Ton email" required />
+
+      <!-- Honeypot: caché, si un bot le remplit => rejet silencieux -->
+      <input id="waitlist-hp" type="text" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;opacity:0;" />
+
+      <button type="submit">Rejoindre</button>
+    </form>
+
+    <div id="waitlist-msg" class="msg" aria-live="polite"></div>
+    
+</section>  
     <small class="note">
       100% gratuit • Généré dans ton navigateur • Aucun tracking <br />
          Par <a href="https://lnkd.in/eepaJzqH" target="_blank" rel="noopener noreferrer">Marc Ezechiel Bakayoko</a>

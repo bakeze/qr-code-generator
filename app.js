@@ -47,3 +47,55 @@ btn.addEventListener("click", () => {
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") btn.click();
 });
+
+const WAITLIST_ENDPOINT = "https://script.google.com/macros/s/AKfycbz6N4gqCvTGu7SdpusF74Tbri_2pbr2PS9tsBjPd2InBcODxdxvzYSxfa_k5dR_aqZjFQ/exec"; // .../exec
+
+const form = document.getElementById("waitlist-form");
+const emailInput = document.getElementById("waitlist-email");
+const hpInput = document.getElementById("waitlist-hp");
+const msg = document.getElementById("waitlist-msg");
+
+// Afficher un message si confirmé via URL ?confirmed=1
+const params = new URLSearchParams(window.location.search);
+if (params.get("confirmed") === "1") {
+  msg.textContent = "✅ Email confirmé ! Merci 🙌";
+}
+if (params.get("confirmed") === "0") {
+  // Optionnel: msg.textContent = "❌ Lien de confirmation invalide.";
+}
+
+form?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  msg.textContent = "";
+
+  const email = emailInput.value.trim().toLowerCase();
+  const hp = (hpInput?.value || "").trim();
+
+  if (!email) return;
+
+  try {
+    const res = await fetch(WAITLIST_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ email, source: "qr-code-generator", hp })
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (data.ok && data.pending) {
+      msg.textContent = "📩 Presque fini : clique sur le lien de confirmation envoyé par email.";
+      emailInput.value = "";
+      if (hpInput) hpInput.value = "";
+      return;
+    }
+
+    if (data.ok && data.alreadyConfirmed) {
+      msg.textContent = "✅ Tu es déjà inscrit(e). Merci !";
+      return;
+    }
+
+    msg.textContent = "❌ Oups, inscription impossible. Réessaie.";
+  } catch (err) {
+    msg.textContent = "❌ Erreur réseau. Réessaie plus tard.";
+  }
+});

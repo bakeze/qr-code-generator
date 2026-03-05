@@ -52,3 +52,25 @@ button{ background:#111; color:#fff; flex:1; }
   justify-content:center;
 }
 .note{ display:block; margin-top: 14px; color:#666; }
+
+.upsell{
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+.upsell h2{ margin: 0 0 8px; font-size: 18px; }
+.upsell p{ margin: 0 0 12px; color:#444; }
+
+.waitlist{
+  display:flex;
+  gap:10px;
+}
+.waitlist input{
+  flex:1;
+}
+.msg{
+  margin-top: 10px;
+  color:#111;
+  font-weight: 600;
+}
